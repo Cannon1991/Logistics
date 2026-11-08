@@ -5,3 +5,34 @@
 ├── docker-compose.yml
 ├── requirements.txt
 └── streamlit_app.py
+/var/log/nginx/*.log {
+    # Execute log rotation sequences once every calendar week
+    weekly
+
+    # Retain a historical window of 12 distinct rotation archives (approx. 3 months of history)
+    rotate 12
+
+    # Compress historical logs into .gz archives to preserve underlying host disk space
+    compress
+
+    # Postpone compression until the subsequent cycle so immediate debugging remains raw text
+    delaycompress
+
+    # Silently pass over target log paths if no access events occurred during the week
+    missingok
+
+    # Prevent throwing system errors if an empty log placeholder file exists on disk
+    notifempty
+
+    # Append a structured hyphenated date string (YYYYMMDD) to individual archived files
+    dateext
+    dateformat -%Y%m%d
+
+    # Force the log rotation to cycle globally across all paths at once rather than line-by-line
+    sharedscripts
+
+    # Gracefully signals Nginx to reopen its active file handlers after rotation completes
+    postrotate
+        docker compose exec -T nginx nginx -s reload > /dev/null 2>&1 || true
+    endscript
+}
