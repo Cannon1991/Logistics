@@ -36,3 +36,9 @@
         docker compose exec -T nginx nginx -s reload > /dev/null 2>&1 || true
     endscript
 }
+├── logrotate/
+│   └── nginx-security
+├── nginx/
+│   ├── default.conf
+│   └── maintenance.html
+├── docker-compose.yml
