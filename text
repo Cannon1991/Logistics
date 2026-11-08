@@ -1,0 +1,7 @@
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── streamlit_app.py
